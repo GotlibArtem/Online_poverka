@@ -1,1 +1,5 @@
+config.py
+arshin.db
+__pycache__/
+.vscode/
 env/
