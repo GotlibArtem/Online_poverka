@@ -1,5 +1,5 @@
 config.py
-arshin.db
+*.db
 __pycache__/
 .vscode/
 env/

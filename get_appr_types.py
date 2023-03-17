@@ -3,6 +3,8 @@ import math
 from datetime import datetime
 import requests
 
+from webapp.model import db, Approved_types
+from webapp import create_app
 
 # Headers for requests
 headers = {
@@ -12,6 +14,7 @@ headers = {
         'Accept-Encoding': 'gzip, deflate, br',
         'Connection': 'keep-alive'
     }
+app = create_app()
 
 
 def get_json_on_request(page_num=1, page_size=100):
@@ -24,8 +27,17 @@ def get_json_on_request(page_num=1, page_size=100):
     """
     url = f'https://fgis.gost.ru/fundmetrology/api/registry/4/data?' \
           f'pageNumber={page_num}&pageSize={page_size}'
-    response = requests.get(url=url, headers=headers, timeout=30)
-    json_object = response.json().get('result')
+    while True:
+        try:
+            response = requests.get(url=url, headers=headers, timeout=30)
+            json_object = response.json().get('result')
+            break
+        except ConnectionError:
+            print('Ошибка соединения.')
+        except TimeoutError:
+            print('Timeout.')
+        except requests.exceptions.JSONDecodeError:
+            print('Ошибка выгрузки.')
 
     return json_object
 
@@ -39,14 +51,22 @@ def format_values_in_appr_type(appr_type: dict) -> dict:
     :return: formatted dict
     """
     for key, value in appr_type.items():
-        if value != '':
+        if value != '' and value is not None:
             if isinstance(value, list):
                 value = ', '.join(value)
             value = value.replace('\n', '').strip()
             if key in ['description_si', 'method_verif_si']:
                 value = f"https://fgis.gost.ru/fundmetrology{value}"
             elif key in ['publication_date', 'certificate_date']:
-                value = datetime.strptime(value, '%d.%m.%Y').date()
+                try:
+                    value = datetime.strptime(value, '%d.%m.%Y').date()
+                except ValueError:
+                    value = None
+            elif key in ['next_verif_si', 'part_verif_si']:
+                if value == 'Да':
+                    value = True
+                else:
+                    value = False
         else:
             value = None
         appr_type[key] = value
@@ -60,7 +80,7 @@ def get_dict_from_item(item: list, corresponding_keys: dict) -> dict:
     the database according to the data about the approved type from arshin.
 
     :param item: a dict that contains all information about the approved type
-    :return: formed dictionary according to the required keys
+    :return: formatted dictionary according to the required keys
     """
     appr_type = dict.fromkeys(corresponding_keys, '')
     for key_db, key_arshin in corresponding_keys.items():
@@ -74,12 +94,35 @@ def get_dict_from_item(item: list, corresponding_keys: dict) -> dict:
     return format_values_in_appr_type(appr_type)
 
 
-def unload_all_app_types(total_count: int, page_size: int) -> list:
+def save_appr_type(appr_type: dict) -> None:
+    """
+    Function of saving info about approved type.
+    """
+    with app.app_context():
+        appr_type_for_db = Approved_types(number_si=appr_type['number_si'],
+                                        name_si=appr_type['name_si'],
+                                        designation_si=appr_type['designation_si'],
+                                        number_record=appr_type['number_record'],
+                                        id_arshin=appr_type['id_arshin'],
+                                        publication_date=appr_type['publication_date'],
+                                        manufacturer_si=appr_type['manufacturer_si'],
+                                        description_si=appr_type['description_si'],
+                                        method_verif_si=appr_type['method_verif_si'],
+                                        proced_si=appr_type['proced_si'],
+                                        certificate_date=appr_type['certificate_date'],
+                                        mpi_si=appr_type['mpi_si'],
+                                        next_verif_si=appr_type['next_verif_si'],
+                                        part_verif_si=appr_type['part_verif_si'],
+                                        status_si=appr_type['status_si'])
+        db.session.add(appr_type_for_db)
+        db.session.commit()
+
+
+def unload_all_app_types(total_count: int, page_size: int) -> None:
     """
     Function for uploading all approved types to the dictionary.
 
     :param total_count: number of all approved types
-    :return: dictionary with all approved types
     """
     corresponding_keys = {
         'number_si': 'foei:NumberSI',
@@ -95,23 +138,22 @@ def unload_all_app_types(total_count: int, page_size: int) -> list:
         'certificate_date': 'foei:CertificateLifeSI',
         'mpi_si': 'foei:MPISI',
         'next_verif_si': 'foei:NextVerifSI',
-        'part_verif_siv': 'foei:PartVerifSI',
+        'part_verif_si': 'foei:PartVerifSI',
         'status_si': 'foei:StatusSI',
     }
-    appr_types = []
-    page_num = 1
-    max_page_num = math.ceil(total_count / page_size)
-    while page_num <= max_page_num:
+    page_num = 685
+    # page_num = math.ceil(total_count / page_size)
+    max_page_num = 967
+    # max_page_num = page_num
+    while page_num >= 1:
         items = get_json_on_request(page_num, page_size).get('items')
         for item in items:
             appr_type = get_dict_from_item(item['properties'],
                                            corresponding_keys)
-            appr_types.append(appr_type)
-        print(appr_types)
-        # print(f'Unloaded {page_num} page out of {max_page_num}.')
-        page_num += 1
-
-    return appr_types
+            save_appr_type(appr_type)
+        count_pages = max_page_num - page_num + 1
+        print(f'Unloaded {count_pages} page out of {max_page_num}. page_num = {page_num}')
+        page_num -= 1
 
 
 def main() -> None:
