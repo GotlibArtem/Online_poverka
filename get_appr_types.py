@@ -141,10 +141,8 @@ def unload_all_app_types(total_count: int, page_size: int) -> None:
         'part_verif_si': 'foei:PartVerifSI',
         'status_si': 'foei:StatusSI',
     }
-    page_num = 685
-    # page_num = math.ceil(total_count / page_size)
-    max_page_num = 967
-    # max_page_num = page_num
+    page_num = math.ceil(total_count / page_size)
+    max_page_num = page_num
     while page_num >= 1:
         items = get_json_on_request(page_num, page_size).get('items')
         for item in items:
@@ -152,7 +150,7 @@ def unload_all_app_types(total_count: int, page_size: int) -> None:
                                            corresponding_keys)
             save_appr_type(appr_type)
         count_pages = max_page_num - page_num + 1
-        print(f'Unloaded {count_pages} page out of {max_page_num}. page_num = {page_num}')
+        print(f'Unloaded {count_pages} page out of {max_page_num}.')
         page_num -= 1
 
 
