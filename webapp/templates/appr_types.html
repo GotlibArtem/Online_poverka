@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru" >
+	<head>
+		<title> OnlinePoverka - Утвержденные типы средств измерений </title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		
+		<link rel="stylesheet" href="/static/css/style.css">
+	</head>
+	<body>
+		<header class="menu">
+			<ul>
+				<li><a href="/">Главная</a></li>
+				<li><a class="active" href="/appr_types/1/20">Утвержденные типы СИ</a></li>
+				<li><a href="/poverka">Онлайн поверка</a></li>
+				<li><a href="/protocols">Отчеты</a></li>
+			</ul>
+		</header>
+		<div class="scroll-table">
+			<input type="text" id="searchInput" onkeyup="searchGR()" placeholder="Найти госреестр" title="Введите ГР" class="inputSearch">
+			<table class="mainTable" id="tableId1"> 
+				<thead>
+					<tr>
+						<th class="column_1">Выбор</th>
+						<th class="column_2" data-order="-1" class="sorted">Номер в госреестре</th>
+						<th class="column_3" data-order="-1">Наименование СИ</th>
+						<th class="column_4">Обозначение типа СИ</th>
+						<th class="column_5">Изготовитель</th>
+					</tr>
+				</thead>
+				<tbody class="fixed">
+					{% for appr_type in appr_types %}
+					<tr>
+						<td class="column_data_1"> 
+							<div class="boxes"><input type="checkbox" id="box">
+								<label for="box"></label> 
+							</div> 
+						</td> 
+						<td class="column_data_2">
+							<a href="/appr_type/{{ appr_type.id_appr_type }}">{{ appr_type.number_si }}</a>
+						</td>
+						<td class="column_data_3">{{ appr_type.name_si }}</td>
+						<td class="column_data_4">{{ appr_type.designation_si }}</td>
+						<td class="column_data_5">{{ appr_type.manufacturer_si }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+		<script src="/static/js/script.js"></script>
+
+	</body>
+</html>
