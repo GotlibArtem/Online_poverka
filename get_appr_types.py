@@ -100,20 +100,20 @@ def save_appr_type(appr_type: dict) -> None:
     """
     with app.app_context():
         appr_type_for_db = Approved_types(number_si=appr_type['number_si'],
-                                        name_si=appr_type['name_si'],
-                                        designation_si=appr_type['designation_si'],
-                                        number_record=appr_type['number_record'],
-                                        id_arshin=appr_type['id_arshin'],
-                                        publication_date=appr_type['publication_date'],
-                                        manufacturer_si=appr_type['manufacturer_si'],
-                                        description_si=appr_type['description_si'],
-                                        method_verif_si=appr_type['method_verif_si'],
-                                        proced_si=appr_type['proced_si'],
-                                        certificate_date=appr_type['certificate_date'],
-                                        mpi_si=appr_type['mpi_si'],
-                                        next_verif_si=appr_type['next_verif_si'],
-                                        part_verif_si=appr_type['part_verif_si'],
-                                        status_si=appr_type['status_si'])
+                                          name_si=appr_type['name_si'],
+                                          designation_si=appr_type['designation_si'],
+                                          number_record=appr_type['number_record'],
+                                          id_arshin=appr_type['id_arshin'],
+                                          publication_date=appr_type['publication_date'],
+                                          manufacturer_si=appr_type['manufacturer_si'],
+                                          description_si=appr_type['description_si'],
+                                          method_verif_si=appr_type['method_verif_si'],
+                                          proced_si=appr_type['proced_si'],
+                                          certificate_date=appr_type['certificate_date'],
+                                          mpi_si=appr_type['mpi_si'],
+                                          next_verif_si=appr_type['next_verif_si'],
+                                          part_verif_si=appr_type['part_verif_si'],
+                                          status_si=appr_type['status_si'])
         db.session.add(appr_type_for_db)
         db.session.commit()
 
