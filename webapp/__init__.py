@@ -1,5 +1,5 @@
 """Imports"""
-from flask import Flask, render_template, Response
+from flask import Flask, render_template
 from flask_migrate import Migrate
 
 from model import db, Approved_types
@@ -24,7 +24,6 @@ def create_app():
 
     @app.route('/appr_type/<int:id_appr_type>')
     def return_appr_type(id_appr_type):
-        id_appr_type = int(id_appr_type)
         data_of_appr_type = Approved_types.query.get(id_appr_type)
 
         return render_template(

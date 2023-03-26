@@ -158,7 +158,6 @@ input[type="checkbox"] {
     display: none;
 }
 input[type="checkbox"] + label {
-    display: block;
     position: relative;
     padding-left: 35px;
     margin-bottom: 20px;
@@ -173,7 +172,6 @@ input[type="checkbox"] + label:last-child {
 }
 input[type="checkbox"] + label:before {
     content: '';
-    display: block;
     width: 15px;
     height: 15px;
     border: 2px solid;
