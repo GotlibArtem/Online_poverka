@@ -7,22 +7,41 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		
 		<link rel="stylesheet" href="/static/css/style.css">
+		<link rel="stylesheet" href="/static/css/bootstrap.min.css">
 	</head>
 	<body>
-		<header class="menu">
-			<ul>
-				<li><a href="/">Главная</a></li>
-				<li><a class="active" href="/appr_types/1/20">Утвержденные типы СИ</a></li>
-				<li><a href="/poverka">Онлайн поверка</a></li>
-				<li><a href="/protocols">Отчеты</a></li>
-			</ul>
+		<header id="header">
+			<nav class="navbar fixed-top navbar-expand-lg	" id="navbar">
+				<a class="navbar-brand d-lg-block" href="#header">
+					<img src="../images/New_logo.png" alt="" width="200" height="40">
+				</a>
+				<div class="collapse navbar-collapse" id="navbarNavDropdown">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li data-menuanchor="firstPage" class="nav-item">
+							<a class="nav-link" href="#aboutus">Главная</a>
+						</li>
+						<li data-menuanchor="secondPage" class="nav-item">
+							<a class="nav-link" href="#projects">Онлайн поверка</a>
+						</li>
+						<li data-menuanchor="thirthPage" class="nav-item">
+							<a class="nav-link" href="#">Отчеты</a>
+						</li>
+						<li data-menuanchor="secondPage" class="nav-item">
+							<a class="nav-link" href="/appr_types/1/50">Утвержденные типы СИ</a>
+						</li>
+					</ul>
+					<form class="d-flex">
+						<a class="btn btn-outline-dark btn-sm btn_id1" href="#" role="button">Войти</a>
+					</form>
+				</div>
+			</nav>
 		</header>
 		<div class="scroll-table">
-			<input type="text" id="searchInput" onkeyup="searchGR()" placeholder="Найти госреестр" title="Введите ГР" class="inputSearch">
+			<input type="text" id="searchInput" onkeyup="searchGR()" placeholder="Поиск" title="Введите ГР" class="inputSearch">
 			<table class="mainTable" id="tableId1"> 
 				<thead>
 					<tr>
-						<th class="column_1"><input type="checkbox" id="box"><label for="box"></label></th>
+						<th style="text-align:center;"><input type="checkbox" name="set" onclick="checkboxes_sel_all(this)"></th>
 						<th class="column_2" data-order="-1" class="sorted">Номер в госреестре</th>
 						<th class="column_3" data-order="-1">Наименование СИ</th>
 						<th class="column_4">Обозначение типа СИ</th>
@@ -32,11 +51,7 @@
 				<tbody class="fixed">
 					{% for appr_type in appr_types %}
 					<tr>
-						<td class="column_data_1"> 
-							<div class="boxes"><input type="checkbox" id="box">
-								<label for="box"></label> 
-							</div> 
-						</td> 
+						<td style="text-align:center;"><input type="checkbox"></td>
 						<td class="column_data_2">
 							<a href="/appr_type/{{ appr_type.id_appr_type }}">{{ appr_type.number_si }}</a>
 						</td>
@@ -46,10 +61,15 @@
 					</tr>
 					{% endfor %}
 				</tbody>
+				<tfoot>
+					
+				</tfoot>
 			</table>
 		</div>
 
 		<script src="/static/js/script.js"></script>
-
+		<!--script src="/static/js/cooperation.js"></script-->
+		<script src="/static/js/bootstrap.min.js"></script>
+		<!--script data-require="jquery" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script-->
 	</body>
 </html>

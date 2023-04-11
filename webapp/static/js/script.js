@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tBody.append(...[...tBody.rows].sort(comparator(index, order)));
         for(const cell of target.parentNode.cells)
         cell.classList.toggle('sorted', cell === target);
-        document.querySelectorAll('.mainTable tbody tr td:first-child').forEach((el, i) => el.textContent = i + 1);
+        // document.querySelectorAll('.mainTable tbody tr td:first-child').forEach((el, i) => el.textContent = i + " ");
     };
     document.querySelectorAll('.mainTable thead').forEach(tableTH => tableTH.addEventListener('click', () => getSort(event)));
 });
@@ -23,15 +23,41 @@ function searchGR() {
     table = document.getElementById("tableId1");
     tr = table.getElementsByTagName("tr");
     for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[1];
-        if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            }
-            else {
-                tr[i].style.display = "none";
+        tds = tr[i].getElementsByTagName("td")
+        let foundInRow = false;
+        for (j = 0; j < tds.length; j++) {
+            if (foundInRow)
+                continue;
+            td = tr[i].getElementsByTagName("td")[j];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    foundInRow = true;
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
             }
         }
+    }
+}
+
+function checkboxes_sel_all(obj)
+{
+let items = obj.form.getElementsByTagName("input"), len, i;
+
+for (i = 0, len = items.length; i < len; i += 1)
+    {
+    if (items.item(i).type && items.item(i).type === "checkbox")
+    {
+    if (obj.checked)
+        {
+        items.item(i).checked = true;
+        }
+    else
+        {
+        items.item(i).checked = false;
+        }      
+    }
     }
 }
