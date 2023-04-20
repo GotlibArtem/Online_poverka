@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="btn_info_appr_type">
+		<a class="btn btn-secondary btn-sm btn_appr_type" href="{{ back_page_url }}" role="button">Назад</a>
+		{% if status_file %}
+			<a href="/tasks/create_task/{{ data_of_appr_type.number_si }}" class="button">
+				<div class="button__line"></div>
+				<div class="button__line"></div>
+				<span class="button__text">Начать поверку</span>
+			</a>
+		{% endif %}
+	</div>
+
+	<div>
+		<table class="table_info">
+			<thead>
+				<tr>
+					<th class="column_1">Наименование</th>
+					<th class="column_2">Значение</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Номер в госреестре</td>
+					<td>{{ data_of_appr_type.number_si }}</td>
+				</tr>
+				<tr>
+					<td>Наименование СИ</td>
+					<td>{{ data_of_appr_type.name_si }}</td>
+				</tr>
+				<tr>
+					<td>Обозначение типа СИ</td>
+					<td>{{ data_of_appr_type.designation_si }}</td>
+				</tr>
+				<tr>
+					<td>Номер записи</td>
+					<td>{{ data_of_appr_type.number_record }}</td>
+				</tr>
+				<tr>
+					<td>Дата опубликования</td>
+					<td>{{ data_of_appr_type.publication_date }}</td>
+				</tr>
+				<tr>
+					<td>Изготовитель</td>
+					<td>{{ data_of_appr_type.manufacturer_si }}</td>
+				</tr>
+				<tr>
+					<td>Описание типа</td>
+					<td><a href="{{ data_of_appr_type.description_si }}">ОТ_{{ data_of_appr_type.number_si }}.pdf</a></td>
+				</tr>
+				<tr>
+					<td>Методика поверки</td>
+					<td><a href="{{ data_of_appr_type.method_verif_si }}">МП_{{ data_of_appr_type.number_si }}.pdf</a></td>
+				</tr>
+				<tr>
+					<td>Процедура</td>
+					<td>{{ data_of_appr_type.proced_si }}</td>
+				</tr>
+				<tr>
+					<td>Межповерочный интервал</td>
+					<td>{{ data_of_appr_type.mpi_si }}</td>
+				</tr>
+				<tr>
+					<td>Статус</td>
+					<td>{{ data_of_appr_type.status_si }}</td>
+				</tr>
+				<tr>
+					<td>Ссылка на АРШИН</td>
+					<td><a href="https://fgis.gost.ru/fundmetrology/registry/4/items/{{ data_of_appr_type.id_arshin }}">{{ data_of_appr_type.number_si }}</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

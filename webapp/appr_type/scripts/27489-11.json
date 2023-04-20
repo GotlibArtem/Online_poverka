@@ -22,7 +22,9 @@
                         "metrolog_operations": [
                             {
                                 "name": "Определение абсолютной погрешности измерения напряжения постоянного тока",
-                                "function": "dc_voltage",
+                                "function": "electrical_meas",
+                                "unit": "В",
+                                "num_of_headers": 6,
                                 "parameters": [
                                     {
                                         "limit": "600м",
@@ -58,7 +60,9 @@
                             },
                             {
                                 "name": "Определение абсолютной погрешности измерения действующего значения напряжения переменного тока",
-                                "function": "ac_voltage",
+                                "function": "electrical_meas",
+                                "unit": "В",
+                                "num_of_headers": 7,
                                 "parameters": [
                                     {
                                         "limit": "600м",
@@ -139,7 +143,9 @@
                             },
                             {
                                 "name": "Определение абсолютной погрешности измерения силы постоянного тока",
-                                "function": "dc_current",
+                                "function": "electrical_meas",
+                                "unit": "А",
+                                "num_of_headers": 6,
                                 "parameters": [
                                     {
                                         "limit": "60м",
@@ -169,7 +175,9 @@
                             },
                             {
                                 "name": "Определение абсолютной погрешности измерения действующего значения силы переменного тока",
-                                "function": "ac_current",
+                                "function": "electrical_meas",
+                                "unit": "А",
+                                "num_of_headers": 7,
                                 "parameters": [
                                     {
                                         "limit": "60м",
@@ -235,7 +243,9 @@
                             },
                             {
                                 "name": "Определение абсолютной погрешности измерения электрического сопротивления",
-                                "function": "resistance",
+                                "function": "electrical_meas",
+                                "unit": "Ом",
+                                "num_of_headers": 6,
                                 "parameters": [
                                     {
                                         "limit": "600",
@@ -277,7 +287,9 @@
                             },
                             {
                                 "name": "Определение абсолютной погрешности измерения частоты переменного тока",
-                                "function": "frequency_ac_voltage",
+                                "function": "electrical_meas",
+                                "unit": "Гц",
+                                "num_of_headers": 6,
                                 "parameters": [
                                     {
                                         "limit": "99.99",
@@ -307,7 +319,9 @@
                             },
                             {
                                 "name": "Определение абсолютной погрешности измерения электрической емкости",
-                                "function": "capacitance",
+                                "function": "electrical_meas",
+                                "unit": "Ф",
+                                "num_of_headers": 6,
                                 "parameters": [
                                     {
                                         "limit": "1000н",

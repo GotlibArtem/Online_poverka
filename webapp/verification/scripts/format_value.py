@@ -1,10 +1,13 @@
-"""Imports"""
 import math
 
 
-def round_half_up(num, decimals=0):
+def round_half_up(num, decimals=0) -> int:
     """
     Function for rounding to an integer according to the rules of mathematics
+
+    :param num: number
+    :param decimals: rounding format
+    :return: rounded number
     """
     multiplier = 10 ** decimals
 
@@ -14,6 +17,9 @@ def round_half_up(num, decimals=0):
 def get_value_without_postfix(value: str) -> float:
     """
     Function to convert number with postfix to standard number
+
+    :param value: number with postfix
+    :return: number without postfix
     """
     postfixes = {
         'п': 10**-12,
@@ -39,6 +45,10 @@ def get_value_without_postfix(value: str) -> float:
 def add_postfix_to_value(value: float, reference_value: str) -> str:
     """
     Function to convert standard number to number with postfix
+
+    :param value: number without postfix
+    :param reference_value: reference value for formatting
+    :return: number formatted by the reference value
     """
     postfixes = {
         'п': 10**12,

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="scroll-table">
+		<input type="text" id="searchInput" onkeyup="searchGR()" placeholder="Поиск" title="Введите ГР" class="inputSearch">
+		
+		<nav aria-label="Page navigation" class="navigation_page">
+			<ul class="pagination pagination-sm">
+				<li class="page-item {% if not pagination.has_prev %} disabled {% endif %}">
+					<a class="page-link" href="{{ url_for('appr_types.appr_types', page=pagination.prev_num) }}" aria-label="Предыдущая">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+	
+				{% for page in pagination.iter_pages(left_edge=1, left_current=2, right_current=2, right_edge=1) %}
+					{% if page %}
+					<li class="page-item {%if page==pagination.page%} active {%endif%}">
+						<a class="page-link" href="{{ url_for('appr_types.appr_types', page=page) }}">{{page}}</a>
+					</li>
+					{% else %}
+					<li class="page-item disabled">
+						<a class="page-link" href="#">&hellip;</a>
+					</li>
+					{% endif %}
+				{% endfor %}
+	
+				<li class="page-item {% if not pagination.has_next %} disabled {% endif %}">
+					<a class="page-link" href="{{ url_for('appr_types.appr_types', page=pagination.next_num) }}" aria-label="Следующая">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+
+		<table class="mainTable table-scroll" id="tableId1"> 
+			<thead>
+				<tr>
+					<th style="text-align:center;"><input type="checkbox" name="set" onclick="checkboxes_sel_all(this)"></th>
+					<th class="column_2" data-order="-1" class="sorted">Номер в госреестре</th>
+					<th class="column_3" data-order="-1">Наименование СИ</th>
+					<th class="column_4">Обозначение типа СИ</th>
+					<th class="column_5">Изготовитель</th>
+				</tr>
+			</thead>
+			<tbody class="fixed">
+				{% for appr_type in pagination.items %}
+				<tr>
+					<td style="text-align:center;"><input type="checkbox"></td>
+					<td class="column_data_2">
+						<a href="/appr_types/info/{{ appr_type.id_appr_type }}">{{ appr_type.number_si }}</a>
+					</td>
+					<td class="column_data_3">{{ appr_type.name_si }}</td>
+					<td class="column_data_4">{{ appr_type.designation_si }}</td>
+					<td class="column_data_5">{{ appr_type.manufacturer_si }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
