@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(128))
     organization = db.Column(db.String(256))
     role = db.Column(db.String(10), index=True)
+    tasks = db.relationship('Tasks', backref='tasks', lazy='dynamic')
 
     def set_password(self, password):
         """

@@ -4,11 +4,19 @@
 	<div class="btn_info_appr_type">
 		<a class="btn btn-secondary btn-sm btn_appr_type" href="{{ back_page_url }}" role="button">Назад</a>
 		{% if status_file %}
-			<a href="/tasks/create_task/{{ data_of_appr_type.number_si }}" class="button">
-				<div class="button__line"></div>
-				<div class="button__line"></div>
-				<span class="button__text">Начать поверку</span>
-			</a>
+			{% if current_user.is_authenticated %}
+				<a href="/tasks/create_task/{{ data_of_appr_type.number_si }}" class="button">
+					<div class="button__line"></div>
+					<div class="button__line"></div>
+					<span class="button__text">Начать поверку</span>
+				</a>
+			{% else %}
+				<a href="/users/login" class="button">
+					<div class="button__line"></div>
+					<div class="button__line"></div>
+					<span class="button__text">Начать поверку</span>
+				</a>
+			{% endif %}
 		{% endif %}
 	</div>
 

@@ -44,7 +44,7 @@
 							<li>
 								<a class="header">{{ metrolog_operation.table_name }}</a>
 								
-								<table class="verificationTable">
+								<table class="verificationTable" id ="tableBox">
 									<thead>
 										<tr>
 											{% for header in metrolog_operation.headers %}
@@ -57,33 +57,19 @@
 											<tr>
 												{% for point in row %}
 													{% if point[1] == "limit" %}
-														<td class="column_data_x">
-															<input class="input_dis" name="limit" value="{{ point[0] }}" readonly="readonly">
-														</td>
+														<td class="column_data_x">{{ point[0] }}</td>
 													{% elif point[1] == "point" %}
-														<td class="column_data_x">
-															<input class="input_dis" name="point" value="{{ point[0] }}" readonly="readonly">
-														</td>
+														<td class="column_data_x4"><a name="points">{{ point[0] }}</a></td>
 													{% elif point[1] == "freq" %}
-														<td class="column_data_x">
-															<input class="input_dis" name="freq" value="{{ point[0] }}" readonly="readonly">
-														</td>
+														<td class="column_data_x">{{ point[0] }}</td>
 													{% elif point[1] == "input_value" %}
-														<td class="column_data_x">
-															<input class="input_point" value="{{ point[0] }}" name="meas_result" onkeydown="if(event.keyCode==13){return false;}">
-														</td>
+														<td class="column_data_x5"><input class="input_point" id="MeasResult" value="{{ point[0] }}" name="meas_result" onkeydown="if(event.keyCode==13){return false;}" ></td>
 													{% elif point[1] == "abs_error" %}
-														<td class="column_data_x">
-															<input class="input_dis" name="abs_error" value="{{ point[0] }}" readonly="readonly">
-														</td>
+														<td class="column_data_x2">{{ point[0] }}</td>
 													{% elif point[1] == "meas_error" %}
-														<td class="column_data_x">
-															<input class="input_dis" name="meas_error" value="{{ point[0] }}" readonly="readonly">
-														</td>
+														<td class="column_data_x">{{ point[0] }}</td>
 													{% elif point[1] == "result" %}
-														<td class="column_data_x">
-															<input class="input_dis" name="result_meas" value="{{ point[0] }}" readonly="readonly">
-														</td>
+														<td class="column_data_x">{{ point[0] }}</td>
 													{% endif %}
 												{% endfor %}
 											</tr>

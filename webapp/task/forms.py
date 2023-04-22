@@ -4,7 +4,40 @@ from wtforms import SelectField, StringField, SubmitField
 from wtforms.validators import DataRequired
 
 
-class TaskForm(FlaskForm):
+class ManageTaskForm(FlaskForm):
+    """
+    Task management form
+    """
+    delete_submit = SubmitField(
+        'Удалить',
+        render_kw={"class": "border-0 btn-transition btn btn-outline-danger delete"}
+    )
+    change_submit = SubmitField(
+        'Изменить',
+        render_kw={"class": "border-0 btn-transition btn btn-outline-success change"}
+    )
+    create_submit = SubmitField(
+        'Создать задание',
+        render_kw={"class": "btn create-task"}
+    )
+
+
+class SearchTaskForm(FlaskForm):
+    """
+    Form for searching tasks
+    """
+    search_num = StringField(
+        'Заводской номер',
+        render_kw={"class": "form-control me-1",
+                   "placeholder": "Заводской номер"}
+    )
+    search_submit = SubmitField(
+        'Поиск',
+        render_kw={"class": "btn btn-primary"}
+    )
+
+
+class CreateTaskForm(FlaskForm):
     """
     Verification task registration form
     """

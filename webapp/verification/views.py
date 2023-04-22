@@ -17,7 +17,10 @@ def verification_mi(number_mi: str, model: str):
     :param model: name of the measuring instrument model
     """
     title = f'Поверка {model} ({number_mi})'
-    data_of_verification = DictConstructor(number_mi, model.lower()).dict_for_html
+    data_of_verification = DictConstructor(
+        number_mi,
+        model.lower()
+    ).dict_for_html
     verification_form = VerificationForm()
 
     return render_template(
@@ -35,12 +38,20 @@ def get_result():
     """
     verification_form = VerificationForm()
     if verification_form.validate_on_submit():
-        print(request.form.getlist('meas_result'))
-        print(current_user.id)
-        print(request.form.getlist('points'))
+        id_user = current_user.id
+        result_task = {
+            'limit': request.form.getlist('limit'),
+            'point': request.form.getlist('point'),
+            'freq': request.form.getlist('freq'),
+            'meas_result': request.form.getlist('meas_result'),
+            'abs_error': request.form.getlist('abs_error'),
+            'meas_error': request.form.getlist('meas_error'),
+            'result_meas': request.form.getlist('result_meas')
+        }
+        print(result_task)
         flash('Данные о поверке успешно получены')
 
-        return redirect(url_for('main_page'))
+        return redirect(url_for('tasks.task_manager'))
 
     flash('Что-то пошло не так')
     return redirect(url_for('verification.verification_mi'))

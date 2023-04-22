@@ -21,6 +21,7 @@ class Approved_types(db.Model):
     next_verif_si = db.Column(db.Boolean)
     part_verif_si = db.Column(db.Boolean)
     status_si = db.Column(db.String)
+    tasks = db.relationship('Tasks', backref='tasks_appr_type', lazy='dynamic')
 
 
 class Verification_data(db.Model):
