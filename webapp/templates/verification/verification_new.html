@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<div class="alert alert-warning" role="alert">
+				{% for message in messages %}
+					{{ message }}<br>
+				{% endfor %}
+			</div>
+		{% endif %}
+	{% endwith %}
+
+	<form action="{{ url_for('verification.get_result') }}" method="POST">
+		{{ form.hidden_tag() }}
+		<div class="poverka">
+			<h4 name="header">{{ verification.header }}</h4>
+			<div>
+				<ol class="multilevel">
+					{% set id, num = namespace(x=1), namespace(x=1) %}
+					{% for main_operation in verification.main_operations %}
+						<li>
+							<a class="header">{{ main_operation.item_name }}:</a>
+							<div class="form_radio">
+								<div class="form_radio_btn item-1">
+									<input id="radio-{{id}}" type="radio" name="radio_{{num}}" value="1" checked>
+									<label for="radio-{{id}}">{{ main_operation.positive_result }}</label>
+								</div>
+								{% set id.x = id.x + 1 %}
+								<div class="form_radio_btn item-2">
+									<input id="radio-{{id}}" type="radio" name="radio_{{num}}" value="2">
+									<label for="radio-{{id}}">{{ main_operation.negative_result }}</label>
+								</div>
+								{% set id.x = id.x + 1 %}
+							</div>
+							{% set num.x = num.x + 1 %}
+							<p></p>
+						</li>
+					{% endfor %}
+					<li>
+						<a class="header">Определение метрологических характеристик</a>
+						<ol> 
+							{% for metrolog_operation in verification.metrolog_operations %}
+							<li>
+								<a class="header">{{ metrolog_operation.table_name }}</a>
+								
+								<table class="verificationTable" id ="tableBox">
+									<thead>
+										<tr>
+											{% for header in metrolog_operation.headers %}
+												<th class="column_x">{{ header }}</th>
+											{% endfor %}
+										</tr>
+									</thead>
+									{% for row in metrolog_operation.rows %}
+										<tbody>
+											<tr>
+												{% for point in row %}
+													{% if point[1] == "limit" %}
+														<td class="column_data_x">{{ point[0] }}</td>
+													{% elif point[1] == "point" %}
+														<td class="column_data_x4"><a name="points">{{ point[0] }}</a></td>
+													{% elif point[1] == "freq" %}
+														<td class="column_data_x">{{ point[0] }}</td>
+													{% elif point[1] == "input_value" %}
+														<td class="column_data_x5"><input class="input_point" id="MeasResult" value="{{ point[0] }}" name="meas_result" onkeydown="if(event.keyCode==13){return false;}" ></td>
+													{% elif point[1] == "abs_error" %}
+														<td class="column_data_x2">{{ point[0] }}</td>
+													{% elif point[1] == "meas_error" %}
+														<td class="column_data_x">{{ point[0] }}</td>
+													{% elif point[1] == "result" %}
+														<td class="column_data_x">{{ point[0] }}</td>
+													{% endif %}
+												{% endfor %}
+											</tr>
+										</tbody>
+									{% endfor %}
+								</table>
+								<p></p>
+							</li>
+							{% endfor %}
+						</ol>
+					</li>
+				</ol>
+			</div>
+		</div>
+
+		<!-- Submit-->
+		<div class="verification-submit">
+			{{ form.submit() }}
+		</div>
+	</form>
+{% endblock %}

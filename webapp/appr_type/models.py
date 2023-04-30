@@ -1,9 +1,10 @@
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from webapp.db import db
 
 
 class Approved_types(db.Model):
+    """
+    Description of the table of approved types of measuring instruments
+    """
     id_appr_type = db.Column(db.Integer, primary_key=True)
     number_si = db.Column(db.String(10), nullable=False)
     name_si = db.Column(db.Text)
@@ -20,3 +21,13 @@ class Approved_types(db.Model):
     next_verif_si = db.Column(db.Boolean)
     part_verif_si = db.Column(db.Boolean)
     status_si = db.Column(db.String)
+    tasks = db.relationship('Tasks', backref='tasks_appr_type', lazy='dynamic')
+
+
+class Verification_data(db.Model):
+    """
+    Description of the table storing json files for the approved types
+    """
+    id_appr_type = db.Column(db.Integer, primary_key=True)
+    model_si = db.Column(db.String(1024), nullable=False)
+    ver_data = db.Column(db.VARCHAR(), nullable=False)

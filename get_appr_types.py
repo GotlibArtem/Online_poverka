@@ -1,10 +1,11 @@
-"""Imports"""
-import math
 from datetime import datetime
+import math
 import requests
 
-from webapp.model import db, Approved_types
 from webapp import create_app
+from webapp.appr_type.models import Approved_types
+from webapp.db import db
+
 
 # Headers for requests
 headers = {

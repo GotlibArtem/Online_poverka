@@ -16,6 +16,32 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.mainTable thead').forEach(tableTH => tableTH.addEventListener('click', () => getSort(event)));
 });
 
+function searchGR() {
+    let input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tableId1");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        tds = tr[i].getElementsByTagName("td")
+        let foundInRow = false;
+        for (j = 0; j < tds.length; j++) {
+            if (foundInRow)
+                continue;
+            td = tr[i].getElementsByTagName("td")[j];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    foundInRow = true;
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+}
+
 function checkboxes_sel_all(obj)
 {
 let items = obj.form.getElementsByTagName("input"), len, i;
@@ -35,38 +61,3 @@ for (i = 0, len = items.length; i < len; i += 1)
     }
     }
 }
-
-
-let tableElements = document.querySelectorAll("tbody > tr"), arrayWithData = [];
-
-Array.from(tableElements, e => {
-  let childNodes = e.getElementsByTagName("td");
-  arrayWithData.push({
-    name: childNodes[1].textContent
-  });
-});
-
-let result = arrayWithData.map(a => a.name);
-result = String(result).replace(/[a-zа-яё]/gi, '');
-
-// Values123 = Array.from(document.getElementsByName('meas_result'), c=> c.value);
-// console.log(Values123);
-
-
-
-console.log(result)
-
-document.getElementById("tableBox").addEventListener("input",
-function (e) {
-    var inp = e.target;
-    if (inp.tagName === "INPUT") {
-        let mass = 60;
-        var td = inp.parentElement.parentElement;
-        td.querySelector(".column_data_x2").textContent = inp.value - result
-    }
-  }
-);
-
-let postfixes = ["п", "н", "мк", "м", "к", "М", "Г", "Т"]
-var MeasResult = document.getElementById("MeasResult")
-new_meas = String(MeasResult).replace()
